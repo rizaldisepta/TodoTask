@@ -1,0 +1,39 @@
+@model ToDoListViewModel
+
+@{
+    ViewData["Title"] = "Your ToDo list: ";
+}
+
+<div class="panel panel-default todo-panel">
+    <div class="panel-heading">@ViewData["Title"]</div>
+
+    <table class="table table-hover table-light table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Done</th>
+                <th>Task</th>
+                <th>Details</th>
+                <th>Last Modified</th>
+            </tr>
+        </thead>
+
+        @foreach (var task in Model.Tasks)
+      {
+        <tr>
+            <td>
+                <form asp-action="MarkDone" method="POST">
+                    <input type="checkbox" class="done-checkbox">
+                    <input type="hidden" name="id" value="@task.Id">
+                </form>
+            </td>
+            <td>@task.Title</td>
+            <td>@task.Details</td>
+            <td>@task.DateModified</td>
+        </tr>
+      }
+    </table>
+
+    <div class="panel-footer add-item-form ">
+        @await Html.PartialAsync("AddTaskPartial", new ToDoListTask())
+    </div>
+</div>
